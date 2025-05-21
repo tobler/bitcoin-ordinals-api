@@ -71,7 +71,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ordinalData.image || '',
         ordinalData.collectionId ? Number(ordinalData.collectionId) : undefined,
         feeRate,
-        useTestnet
+        useTestnet,
+        ordinalData.receiverAddress // Pass the receiver address if provided
       );
       
       // Store ordinal in database with transaction info
