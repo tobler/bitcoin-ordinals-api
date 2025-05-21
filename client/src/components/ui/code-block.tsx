@@ -21,13 +21,8 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
     });
   };
 
-  // Format code for display
-  const formattedCode = code
-    .replace(/"([^"]+)":/g, '<span class="string">"$1"</span>:')
-    .replace(/"([^"]+)"/g, '<span class="string">"$1"</span>')
-    .replace(/\b(true|false|null)\b/g, '<span class="keyword">$1</span>')
-    .replace(/\b(\d+)\b/g, '<span class="number">$1</span>')
-    .replace(/\/\/(.*)/g, '<span class="comment">// $1</span>');
+  // Simple code formatting without injecting HTML elements that might interfere with JSON
+  let formattedCode = code;
 
   return (
     <div className="relative bg-[#1E293B] rounded-md overflow-hidden">
