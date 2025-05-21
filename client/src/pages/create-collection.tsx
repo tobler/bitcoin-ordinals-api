@@ -103,7 +103,8 @@ Content-Type: application/json
   "description": "A collection of unique Bitcoin Ordinals",
   "symbol": "CPUNK",
   "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEU...",
-  "feeRate": 5
+  "feeRate": 5,
+  "useTestnet": false
 }`;
 
   // Example response

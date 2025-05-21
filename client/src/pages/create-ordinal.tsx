@@ -109,7 +109,7 @@ Content-Type: application/json
 {
   "bitcoinAddress": "bc1p9yfwlm0w3vlczd7xzz3au0g08wnf89u838z3fvz90zkct7t2f9tqgskn6s",
   "privateKey": "****************************************",
-  "collectionId": "65f4ae2b8c99f32e4f7a12d0",
+  "collectionId": 1,
   "name": "Crypto Punk #1234",
   "description": "A unique Bitcoin Ordinal NFT",
   "attributes": [
@@ -123,7 +123,9 @@ Content-Type: application/json
     }
   ],
   "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEU...",
-  "feeRate": 10
+  "feeRate": 10,
+  "useTestnet": false,
+  "receiverAddress": "bc1pzjf0d7u42lu5xhw8h9zgfzgtwk9jx4rh9t87mpzj4h7wzj5c8resrdjnna"
 }`;
 
   // Example response
