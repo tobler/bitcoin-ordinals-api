@@ -36,7 +36,7 @@ export default function Sidebar({ open }: SidebarProps) {
         <ul className="space-y-2">
           <li>
             <Link href="/">
-              <a className={`flex items-center ${isActive('/') ? 'text-white bg-navy-800' : 'text-gray-300 hover:text-white hover:bg-navy-800'} rounded-md px-3 py-2`}>
+              <a className={`flex items-center ${isActive('/') ? 'text-white bg-bitcoin-orange' : 'text-white hover:text-white hover:bg-bitcoin-orange'} rounded-md px-3 py-2`}>
                 <i className="fas fa-home w-5 h-5 mr-2"></i>
                 <span>Overview</span>
               </a>
@@ -44,7 +44,7 @@ export default function Sidebar({ open }: SidebarProps) {
           </li>
           <li>
             <Link href="/docs/quickstart">
-              <a className={`flex items-center ${isActive('/docs/quickstart') ? 'text-white bg-navy-800' : 'text-gray-300 hover:text-white hover:bg-navy-800'} rounded-md px-3 py-2`}>
+              <a className={`flex items-center ${isActive('/docs/quickstart') ? 'text-white bg-bitcoin-orange' : 'text-white hover:text-white hover:bg-bitcoin-orange'} rounded-md px-3 py-2`}>
                 <i className="fas fa-bolt w-5 h-5 mr-2"></i>
                 <span>Quick Start</span>
               </a>
@@ -56,7 +56,7 @@ export default function Sidebar({ open }: SidebarProps) {
         <ul className="space-y-2">
           <li>
             <Link href="/create-ordinal">
-              <a className={`flex items-center ${isActive('/create-ordinal') ? 'text-white bg-navy-800' : 'text-gray-300 hover:text-white hover:bg-navy-800'} rounded-md px-3 py-2`}>
+              <a className={`flex items-center ${isActive('/create-ordinal') ? 'text-white bg-bitcoin-orange' : 'text-white hover:text-white hover:bg-bitcoin-orange'} rounded-md px-3 py-2`}>
                 <i className="fas fa-plus-circle w-5 h-5 mr-2"></i>
                 <span>Create Ordinal</span>
               </a>
@@ -64,7 +64,7 @@ export default function Sidebar({ open }: SidebarProps) {
           </li>
           <li>
             <Link href="/create-collection">
-              <a className={`flex items-center ${isActive('/create-collection') ? 'text-white bg-navy-800' : 'text-gray-300 hover:text-white hover:bg-navy-800'} rounded-md px-3 py-2`}>
+              <a className={`flex items-center ${isActive('/create-collection') ? 'text-white bg-bitcoin-orange' : 'text-white hover:text-white hover:bg-bitcoin-orange'} rounded-md px-3 py-2`}>
                 <i className="fas fa-layer-group w-5 h-5 mr-2"></i>
                 <span>Create Collection</span>
               </a>
@@ -72,7 +72,7 @@ export default function Sidebar({ open }: SidebarProps) {
           </li>
           <li>
             <Link href="/docs/list-ordinals">
-              <a className={`flex items-center ${isActive('/docs/list-ordinals') ? 'text-white bg-navy-800' : 'text-gray-300 hover:text-white hover:bg-navy-800'} rounded-md px-3 py-2`}>
+              <a className={`flex items-center ${isActive('/docs/list-ordinals') ? 'text-white bg-bitcoin-orange' : 'text-white hover:text-white hover:bg-bitcoin-orange'} rounded-md px-3 py-2`}>
                 <i className="fas fa-list w-5 h-5 mr-2"></i>
                 <span>List Ordinals</span>
               </a>
