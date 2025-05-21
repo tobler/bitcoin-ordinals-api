@@ -9,9 +9,20 @@ import {
   collectionResponseSchema 
 } from "@shared/schema";
 import { createOrdinal, createCollection } from "./bitcoin/ordinals";
+import { getNodeInfo, getNodeStatus } from "./bitcoin/node-api";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // API routes
+  
+  /**
+   * Get Bitcoin node status
+   */
+  app.get('/api/v1/node/status', getNodeStatus);
+  
+  /**
+   * Get Bitcoin node information
+   */
+  app.get('/api/v1/node/info', getNodeInfo);
   
   /**
    * Create an ordinal
@@ -38,12 +49,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { privateKey, feeRate, useTestnet, ...ordinalToStore } = ordinalData;
       
       // Prepare attributes - ensure it's properly typed
-      const attributes = Array.isArray(ordinalData.attributes) 
-        ? ordinalData.attributes.map(attr => ({
-            trait_type: String(attr.trait_type || ''),
-            value: String(attr.value || '')
-          }))
-        : [];
+      const attributes: Array<{ trait_type: string; value: string }> = [];
+      if (Array.isArray(ordinalData.attributes)) {
+        for (const attr of ordinalData.attributes) {
+          if (attr && typeof attr === 'object') {
+            attributes.push({
+              trait_type: String(attr.trait_type || ''),
+              value: String(attr.value || '')
+            });
+          }
+        }
+      }
       
       // Create the transaction
       const txResult = await createOrdinal(
