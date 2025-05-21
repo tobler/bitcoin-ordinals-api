@@ -1,16 +1,17 @@
 import * as bitcoin from 'bitcoinjs-lib';
 import ECPairFactory from 'ecpair';
 import * as ecc from 'tiny-secp256k1';
+import { getCurrentNetwork } from './config';
 
 // Initialize modules
 const ECPair = ECPairFactory(ecc);
 
 /**
- * Validates a Bitcoin address
+ * Validates a Bitcoin address on the current network
  */
 export function isValidBitcoinAddress(address: string): boolean {
   try {
-    bitcoin.address.toOutputScript(address);
+    bitcoin.address.toOutputScript(address, getCurrentNetwork());
     return true;
   } catch (error) {
     return false;
@@ -18,10 +19,41 @@ export function isValidBitcoinAddress(address: string): boolean {
 }
 
 /**
- * Validates if an address is a Taproot address (starts with bc1p)
+ * Validates if an address is a Taproot address
+ * Checks for bc1p (mainnet) or tb1p (testnet)
  */
 export function isValidTaprootAddress(address: string): boolean {
-  return address.startsWith('bc1p') && isValidBitcoinAddress(address);
+  const network = getCurrentNetwork();
+  const isMainnet = network === bitcoin.networks.bitcoin;
+  
+  // Check appropriate prefix based on network
+  const hasValidPrefix = isMainnet ? 
+    address.startsWith('bc1p') : 
+    address.startsWith('tb1p');
+    
+  return hasValidPrefix && isValidBitcoinAddress(address);
+}
+
+/**
+ * Checks if the provided address matches the current network
+ * @returns true if the address matches the current network, false otherwise
+ */
+export function isAddressMatchingNetwork(address: string): boolean {
+  const network = getCurrentNetwork();
+  const isMainnet = network === bitcoin.networks.bitcoin;
+  
+  // Mainnet addresses start with bc1, 1, or 3
+  const isMainnetAddress = address.startsWith('bc1') || 
+                          address.startsWith('1') || 
+                          address.startsWith('3');
+                          
+  // Testnet addresses start with tb1, m, or n
+  const isTestnetAddress = address.startsWith('tb1') || 
+                          address.startsWith('m') || 
+                          address.startsWith('n');
+  
+  // Address should match the current network
+  return (isMainnet && isMainnetAddress) || (!isMainnet && isTestnetAddress);
 }
 
 /**
