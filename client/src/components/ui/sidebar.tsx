@@ -13,7 +13,7 @@ export default function Sidebar({ open }: SidebarProps) {
 
   return (
     <aside 
-      className={`bg-navy-900 text-white w-64 flex-shrink-0 fixed h-full overflow-y-auto z-10 transition-all duration-300 ease-in-out ${
+      className={`bg-gray-900 text-white w-64 flex-shrink-0 fixed h-full overflow-y-auto z-10 transition-all duration-300 ease-in-out ${
         open ? 'translate-x-0' : '-translate-x-64'
       }`}
     >
@@ -32,7 +32,7 @@ export default function Sidebar({ open }: SidebarProps) {
       </div>
 
       <nav className="p-4">
-        <h2 className="text-xs uppercase tracking-wider text-gray-400 font-semibold mb-3">Documentation</h2>
+        <h2 className="text-xs uppercase tracking-wider text-white font-semibold mb-3">Documentation</h2>
         <ul className="space-y-2">
           <li>
             <Link href="/">
@@ -52,7 +52,7 @@ export default function Sidebar({ open }: SidebarProps) {
           </li>
         </ul>
         
-        <h2 className="text-xs uppercase tracking-wider text-gray-400 font-semibold mt-6 mb-3">Actions</h2>
+        <h2 className="text-xs uppercase tracking-wider text-white font-semibold mt-6 mb-3">Actions</h2>
         <ul className="space-y-2">
           <li>
             <Link href="/create-ordinal">
@@ -80,7 +80,7 @@ export default function Sidebar({ open }: SidebarProps) {
           </li>
           <li>
             <Link href="/docs/view-ordinal">
-              <a className={`flex items-center ${isActive('/docs/view-ordinal') ? 'text-white bg-navy-800' : 'text-gray-300 hover:text-white hover:bg-navy-800'} rounded-md px-3 py-2`}>
+              <a className={`flex items-center ${isActive('/docs/view-ordinal') ? 'text-white bg-bitcoin-orange' : 'text-white hover:text-white hover:bg-bitcoin-orange'} rounded-md px-3 py-2`}>
                 <i className="fas fa-eye w-5 h-5 mr-2"></i>
                 <span>View Ordinal</span>
               </a>
