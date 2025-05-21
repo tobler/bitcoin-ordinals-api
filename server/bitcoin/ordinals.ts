@@ -124,7 +124,8 @@ export async function createOrdinal(
   imageDataUrl: string,
   collectionId?: number,
   feeRate: number = 10,
-  useTestnet: boolean = false
+  useTestnet: boolean = false,
+  receiverAddress?: string
 ): Promise<{ txid: string; blockHeight?: number; fees: number; size: number }> {
   // Set the network first
   setBitcoinNetwork(useTestnet);
@@ -159,11 +160,23 @@ export async function createOrdinal(
     network: useTestnet ? 'testnet' : 'mainnet'
   };
   
+  // Determine the destination address - use receiverAddress if provided, otherwise use the source address
+  const destinationAddress = receiverAddress || bitcoinAddress;
+  
+  // If receiver address is provided, validate it too
+  if (receiverAddress && !isValidTaprootAddress(receiverAddress)) {
+    throw new Error(`Invalid receiver Bitcoin Taproot address. Must start with ${useTestnet ? 'tb1p' : 'bc1p'}.`);
+  }
+  
+  if (receiverAddress && !isAddressMatchingNetwork(receiverAddress)) {
+    throw new Error(`Receiver address does not match the selected network (${useTestnet ? 'testnet' : 'mainnet'}).`);
+  }
+  
   // Create and sign the transaction
   const { tx, txid } = await createOrdinalTransaction(
     utxos,
     privateKey,
-    bitcoinAddress,
+    destinationAddress, // Use the destination address for the ordinal output
     metadata,
     imageDataUrl,
     feeRate

@@ -52,7 +52,7 @@ export const insertCollectionSchema = createInsertSchema(collections).pick({
 export const insertOrdinalSchema = createInsertSchema(ordinals).pick({
   name: true,
   description: true,
-  bitcoinAddress: true,
+  bitcoinAddress: true, // This is the source address with UTXOs (signing address)
   collectionId: true,
   attributes: true,
   image: true,
@@ -60,6 +60,7 @@ export const insertOrdinalSchema = createInsertSchema(ordinals).pick({
   privateKey: z.string().min(1, "Private key is required"),
   feeRate: z.number().int().min(1, "Fee rate must be at least 1 sat/vB").default(10),
   useTestnet: z.boolean().default(false),
+  receiverAddress: z.string().optional(), // Optional receiver address, defaults to bitcoinAddress if not provided
 });
 
 // Types
