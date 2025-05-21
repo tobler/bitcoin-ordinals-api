@@ -24,7 +24,6 @@ export default function Header({ toggleSidebar }: HeaderProps) {
         
         <div className="flex items-center space-x-4">
           {/* Header-Elemente entfernt - keine Glocke, Zahnradsymbol oder Developer-Bereich */}
-          </div>
         </div>
       </div>
     </header>

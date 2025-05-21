@@ -50,17 +50,9 @@ export default function Sidebar({ open }: SidebarProps) {
               </a>
             </Link>
           </li>
-          <li>
-            <Link href="/docs/authentication">
-              <a className={`flex items-center ${isActive('/docs/authentication') ? 'text-white bg-navy-800' : 'text-gray-300 hover:text-white hover:bg-navy-800'} rounded-md px-3 py-2`}>
-                <i className="fas fa-key w-5 h-5 mr-2"></i>
-                <span>Authentication</span>
-              </a>
-            </Link>
-          </li>
         </ul>
         
-        <h2 className="text-xs uppercase tracking-wider text-gray-400 font-semibold mt-6 mb-3">API Reference</h2>
+        <h2 className="text-xs uppercase tracking-wider text-gray-400 font-semibold mt-6 mb-3">Actions</h2>
         <ul className="space-y-2">
           <li>
             <Link href="/create-ordinal">
@@ -91,26 +83,6 @@ export default function Sidebar({ open }: SidebarProps) {
               <a className={`flex items-center ${isActive('/docs/view-ordinal') ? 'text-white bg-navy-800' : 'text-gray-300 hover:text-white hover:bg-navy-800'} rounded-md px-3 py-2`}>
                 <i className="fas fa-eye w-5 h-5 mr-2"></i>
                 <span>View Ordinal</span>
-              </a>
-            </Link>
-          </li>
-        </ul>
-        
-        <h2 className="text-xs uppercase tracking-wider text-gray-400 font-semibold mt-6 mb-3">Development</h2>
-        <ul className="space-y-2">
-          <li>
-            <Link href="/docs/test-api">
-              <a className={`flex items-center ${isActive('/docs/test-api') ? 'text-white bg-navy-800' : 'text-gray-300 hover:text-white hover:bg-navy-800'} rounded-md px-3 py-2`}>
-                <i className="fas fa-vial w-5 h-5 mr-2"></i>
-                <span>Test API</span>
-              </a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/docs/swagger">
-              <a className={`flex items-center ${isActive('/docs/swagger') ? 'text-white bg-navy-800' : 'text-gray-300 hover:text-white hover:bg-navy-800'} rounded-md px-3 py-2`}>
-                <i className="fas fa-file-code w-5 h-5 mr-2"></i>
-                <span>Swagger Docs</span>
               </a>
             </Link>
           </li>
