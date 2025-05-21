@@ -229,7 +229,8 @@ Content-Type: application/json
                   <div className="py-3">
                     <Button
                       type="submit"
-                      className="w-full bg-bitcoin-orange text-white font-bold hover:bg-orange-600"
+                      className="w-full bg-bitcoin-orange text-white font-bold border-2 border-orange-400 shadow-md hover:bg-orange-600"
+                      style={{ backgroundColor: "#F7931A", color: "white" }}
                       disabled={createCollectionMutation.isPending}
                     >
                       {createCollectionMutation.isPending ? (
