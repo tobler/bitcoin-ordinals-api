@@ -34,8 +34,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const ordinalData = validationResult.data;
       
-      // Extract privateKey and feeRate before storing
-      const { privateKey, feeRate, ...ordinalToStore } = ordinalData;
+      // Extract privateKey, feeRate, and network selection before storing
+      const { privateKey, feeRate, useTestnet, ...ordinalToStore } = ordinalData;
+      
+      // Prepare attributes - ensure it's properly typed
+      const attributes = Array.isArray(ordinalData.attributes) 
+        ? ordinalData.attributes.map(attr => ({
+            trait_type: String(attr.trait_type || ''),
+            value: String(attr.value || '')
+          }))
+        : [];
       
       // Create the transaction
       const txResult = await createOrdinal(
@@ -43,21 +51,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
         privateKey,
         ordinalData.name,
         ordinalData.description || '',
-        ordinalData.attributes || [],
+        attributes,
         ordinalData.image || '',
-        ordinalData.collectionId,
-        feeRate
+        ordinalData.collectionId ? Number(ordinalData.collectionId) : undefined,
+        feeRate,
+        useTestnet
       );
       
       // Store ordinal in database with transaction info
       const ordinal = await storage.createOrdinal({
         ...ordinalToStore,
-        txid: txResult.txid,
         status: 'confirmed', // In real implementation, this would initially be "pending"
-        blockHeight: 830129, // Mock value - in real implementation, this would be updated after confirmation
+        blockHeight: txResult.blockHeight || 830129, // Use real block height or fallback to mock
         fees: txResult.fees,
-        size: txResult.size
-      });
+        size: txResult.size,
+        txid: txResult.txid, // Add txid as part of the database record
+        inscription: `${txResult.txid}i0` // Simple inscription ID format
+      } as any);
       
       // Format response according to schema
       const response = ordinalResponseSchema.parse({
@@ -108,8 +118,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const collectionData = validationResult.data;
       
-      // Extract privateKey and feeRate before storing
-      const { privateKey, feeRate, ...collectionToStore } = collectionData;
+      // Extract privateKey, feeRate, and network selection before storing
+      const { privateKey, feeRate, useTestnet, ...collectionToStore } = collectionData;
       
       // Create the transaction
       const txResult = await createCollection(
@@ -119,17 +129,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         collectionData.description || '',
         collectionData.symbol || '',
         collectionData.image || '',
-        feeRate
+        feeRate,
+        useTestnet
       );
       
       // Store collection in database with transaction info
       const collection = await storage.createCollection({
         ...collectionToStore,
-        txid: txResult.txid,
         status: 'confirmed', // In real implementation, this would initially be "pending"
-        blockHeight: 830125, // Mock value - in real implementation, this would be updated after confirmation
-        fees: txResult.fees
-      });
+        blockHeight: txResult.blockHeight || 830125, // Use real block height or fallback
+        fees: txResult.fees,
+        txid: txResult.txid, // Add txid as part of the database record
+        inscription: `${txResult.txid}i0` // Simple inscription ID format
+      } as any);
       
       // Format response according to schema
       const response = collectionResponseSchema.parse({

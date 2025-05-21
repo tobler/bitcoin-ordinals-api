@@ -46,6 +46,7 @@ export const insertCollectionSchema = createInsertSchema(collections).pick({
 }).extend({
   privateKey: z.string().min(1, "Private key is required"),
   feeRate: z.number().int().min(1, "Fee rate must be at least 1 sat/vB").default(5),
+  useTestnet: z.boolean().default(false),
 });
 
 export const insertOrdinalSchema = createInsertSchema(ordinals).pick({
@@ -58,6 +59,7 @@ export const insertOrdinalSchema = createInsertSchema(ordinals).pick({
 }).extend({
   privateKey: z.string().min(1, "Private key is required"),
   feeRate: z.number().int().min(1, "Fee rate must be at least 1 sat/vB").default(10),
+  useTestnet: z.boolean().default(false),
 });
 
 // Types

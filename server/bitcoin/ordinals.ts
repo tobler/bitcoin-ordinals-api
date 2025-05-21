@@ -105,6 +105,14 @@ async function getCurrentBlockHeight(): Promise<number> {
 }
 
 /**
+ * Set the Bitcoin network for transactions
+ * @param useTestnet Whether to use testnet (true) or mainnet (false)
+ */
+export function setBitcoinNetwork(useTestnet: boolean): void {
+  setNetwork(useTestnet);
+}
+
+/**
  * Creates an ordinal NFT
  */
 export async function createOrdinal(
@@ -115,11 +123,20 @@ export async function createOrdinal(
   attributes: Array<{ trait_type: string; value: string }>,
   imageDataUrl: string,
   collectionId?: number,
-  feeRate: number = 10
+  feeRate: number = 10,
+  useTestnet: boolean = false
 ): Promise<{ txid: string; blockHeight?: number; fees: number; size: number }> {
+  // Set the network first
+  setBitcoinNetwork(useTestnet);
+  
   // Validate inputs
   if (!isValidTaprootAddress(bitcoinAddress)) {
-    throw new Error('Invalid Bitcoin Taproot address. Must start with bc1p.');
+    throw new Error(`Invalid Bitcoin Taproot address. Must start with ${useTestnet ? 'tb1p' : 'bc1p'}.`);
+  }
+  
+  // Check if address matches the selected network
+  if (!isAddressMatchingNetwork(bitcoinAddress)) {
+    throw new Error(`Address does not match the selected network (${useTestnet ? 'testnet' : 'mainnet'}).`);
   }
   
   if (!isValidPrivateKey(privateKey)) {
@@ -138,7 +155,8 @@ export async function createOrdinal(
     name,
     description,
     attributes,
-    collectionId
+    collectionId,
+    network: useTestnet ? 'testnet' : 'mainnet'
   };
   
   // Create and sign the transaction
@@ -157,12 +175,20 @@ export async function createOrdinal(
   // Broadcast the transaction
   await broadcastTransaction(txHex);
   
+  // Get current block height if available
+  let blockHeight: number | undefined;
+  try {
+    blockHeight = await getCurrentBlockHeight();
+  } catch (error) {
+    console.warn('Could not fetch current block height, leaving undefined');
+  }
+  
   // Return transaction details
   return {
     txid,
+    blockHeight,
     fees: Math.ceil(tx.virtualSize() * feeRate),
-    size: tx.byteLength(),
-    // We don't know the block height yet since the transaction hasn't been confirmed
+    size: tx.byteLength()
   };
 }
 
@@ -176,11 +202,20 @@ export async function createCollection(
   description: string,
   symbol: string,
   imageDataUrl: string,
-  feeRate: number = 5
+  feeRate: number = 5,
+  useTestnet: boolean = false
 ): Promise<{ txid: string; blockHeight?: number; fees: number; size: number }> {
+  // Set the network first
+  setBitcoinNetwork(useTestnet);
+  
   // Validate inputs
   if (!isValidTaprootAddress(bitcoinAddress)) {
-    throw new Error('Invalid Bitcoin Taproot address. Must start with bc1p.');
+    throw new Error(`Invalid Bitcoin Taproot address. Must start with ${useTestnet ? 'tb1p' : 'bc1p'}.`);
+  }
+  
+  // Check if address matches the selected network
+  if (!isAddressMatchingNetwork(bitcoinAddress)) {
+    throw new Error(`Address does not match the selected network (${useTestnet ? 'testnet' : 'mainnet'}).`);
   }
   
   if (!isValidPrivateKey(privateKey)) {
@@ -199,7 +234,8 @@ export async function createCollection(
     name,
     description,
     symbol,
-    type: 'collection'
+    type: 'collection',
+    network: useTestnet ? 'testnet' : 'mainnet'
   };
   
   // Create and sign the transaction
@@ -218,11 +254,19 @@ export async function createCollection(
   // Broadcast the transaction
   await broadcastTransaction(txHex);
   
+  // Get current block height if available
+  let blockHeight: number | undefined;
+  try {
+    blockHeight = await getCurrentBlockHeight();
+  } catch (error) {
+    console.warn('Could not fetch current block height, leaving undefined');
+  }
+  
   // Return transaction details
   return {
     txid,
+    blockHeight,
     fees: Math.ceil(tx.virtualSize() * feeRate),
-    size: tx.byteLength(),
-    // We don't know the block height yet since the transaction hasn't been confirmed
+    size: tx.byteLength()
   };
 }
