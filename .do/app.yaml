@@ -1,0 +1,28 @@
+name: bitcoin-ordinals-api
+services:
+- name: bitcoin-ordinals-api
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: your-username/bitcoin-ordinals-api
+  build_command: npm install && npm run build
+  run_command: node dist/server/index.js
+  envs:
+  - key: NODE_ENV
+    value: production
+  - key: PORT
+    scope: RUN_TIME
+    value: "8080"
+  # Add bitcoin node configuration if needed:
+  # - key: BITCOIN_NODE_HOST
+  #   value: your-node-host
+  # - key: BITCOIN_NODE_PORT
+  #   value: "8332"
+  # - key: BITCOIN_NODE_USERNAME
+  #   value: your-username
+  # - key: BITCOIN_NODE_PASSWORD
+  #   value: your-password
+  # - key: BITCOIN_NODE_TIMEOUT
+  #   value: "30000"
+  # - key: BITCOIN_NODE_SSL
+  #   value: "false"
